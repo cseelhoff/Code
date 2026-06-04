@@ -41,25 +41,4 @@ Copy-Item "$env:TEMP\copilot-config\User\*" "$env:APPDATA\Code\User" -Recurse -F
 Remove-Item "$env:TEMP\copilot-config" -Recurse -Force
 ```
 
-## Install by cloning directly into place
-
-To keep the config under version control in place (so you can `git pull` updates),
-clone straight into the user-data directory. This only works cleanly on a fresh
-profile where a `prompts` folder doesn't already exist:
-
-```powershell
-git clone https://github.com/cseelhoff/Code "$env:APPDATA\Code - Insiders\User\Code-config"
-```
-
-Then point VS Code at the cloned `prompts` folder, or symlink it:
-
-```powershell
-New-Item -ItemType SymbolicLink `
-  -Path "$env:APPDATA\Code - Insiders\User\prompts" `
-  -Target "$env:APPDATA\Code - Insiders\User\Code-config\User\prompts"
-```
-
-> Run the symlink command from an elevated (Administrator) PowerShell, or enable
-> Windows Developer Mode, since creating symlinks requires the privilege.
-
 After installing, restart VS Code so Copilot picks up the new instructions and skills.
