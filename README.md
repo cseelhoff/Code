@@ -31,6 +31,15 @@ Copy-Item "$env:TEMP\copilot-config\User\*" "$env:APPDATA\Code - Insiders\User" 
 Remove-Item "$env:TEMP\copilot-config" -Recurse -Force
 ```
 
+Linux
+```sh
+tmpdir="$(mktemp -d)"
+git clone https://github.com/cseelhoff/Code "$tmpdir/copilot-config"
+mkdir -p "$HOME/.config/Code - Insiders/User"
+cp -a "$tmpdir/copilot-config/User/." "$HOME/.config/Code - Insiders/User/"
+rm -rf "$tmpdir"
+```
+
 ### Stable VS Code
 
 Use the `Code` folder instead of `Code - Insiders`:
