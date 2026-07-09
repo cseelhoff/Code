@@ -7,9 +7,10 @@ applyTo: "**"
 > Claude, etc.) generate code that matches this style by default. Rooted in
 > data-oriented design, procedural programming, and a performance-first mindset.
 >
-> Some repos also ship a `.github/beautiful-code.md` with concrete slop-vs-lean
-> code examples — attach it when doing performance-critical or representation-
-> level work.
+> Companion reference: `beautiful-code.md` (repo root of this Copilot config)
+> has concrete slop-vs-lean examples — attach it when doing performance-critical
+> or representation-level work. In a target project, look for the same file at
+> the repo root or under docs if the project vendored a copy.
 
 ## Non-negotiables (read first)
 
@@ -21,14 +22,54 @@ applyTo: "**"
    reconstruct state analytically on read.
 4. **SoA by default; reference entities by integer handle**, not pointer.
 5. **Performance-first.** Branchless hot loops, bitsets, precompute static
-   results.
+   results, leverage SIMD-friendly data layouts, etc.
 6. **Don't abstract early.** Inline cohesive code over premature helpers.
 
-## When rules conflict
+## When rules conflict (full order)
 
-Performance first, then readability. A simple, fast, elegant solution beats any
-rule applied dogmatically. Every guideline below serves those two goals — not
-the other way around.
+When guidelines pull in different directions, apply this order — not the reverse:
+
+1. **Correctness / safety / trust boundaries / data-loss handling.**
+2. **Real performance of the work that matters** — hot paths and algorithms
+   (may be "clever": bit tricks, SoA, branchless, closed-form) when they pay
+   for themselves. Comments explaining non-obvious performance intent are
+   expected, not a smell.
+3. **Fewest lines / fewest files / no unrequested abstraction** (laziness
+   ladder below).
+4. **Clever without measurable or structural advantage → reject** (see
+   `beautiful-code.md` #15, XOR-swap).
+
+"Boring over clever" means **no clever abstractions without payoff**. It is
+**not** an excuse to skip major performance improvements. If the purpose stays
+intuitive — even with a short *why* comment — real performance wins stand.
+
+A simple, fast, elegant solution beats any rule applied dogmatically.
+
+## Laziness ladder (minimize what you build)
+
+Before writing code, stop at the first rung that holds — **after** you have
+read the task and the code it touches and traced the real flow end to end:
+
+1. **YAGNI** — Does this need to exist? If not, skip it.
+2. **Already in this codebase?** Reuse the helper, type, or pattern.
+3. **Stdlib / language builtin?** Use it (crypto, serialization, etc. in that
+   class are fine).
+4. **Native platform feature?** Use it (`<input type="date">`, CSS, DB
+   constraints, OS APIs).
+5. **Already-vendored dependency?** Use it. **Default: do not add a *new*
+   dependency** — prefer hand-rolling a small custom piece. Exceptions:
+   focused battle-tested packages you can't realistically beat, or when the
+   user explicitly asks for a dependency.
+6. **One line?** Prefer it only when the algorithm is correct (see conflict
+   order — not the flimsier one-liner).
+7. **Only then:** the minimum that works.
+
+Bug fixes: fix the **root cause** at the shared call site, not one symptom path.
+Mark deliberate shortcuts with a `ponytail:` comment naming the ceiling and
+upgrade path.
+
+For aggressive YAGNI intensity or over-engineering hunts, use the `ponytail`
+and `ponytail-review` skills.
 
 ## Core philosophy
 
@@ -38,9 +79,6 @@ the other way around.
 - **Procedural over OOP.** Free functions that transform plain data, not
   methods bundled into classes hiding state.
 - **Static typing.** Explicit, concrete types. No dynamic duck-typing tricks.
-- **Performance is a feature.** Prefer designs that minimize wasted work.
-- **Reject "Clean Code" dogma.** Tiny functions, excessive indirection, and
-  "one reason to change" abstraction are net negatives.
 - **Closed-form / event-driven over per-tick polling.** Store a timestamp and
   reconstruct state analytically on read; do not mutate state every tick. This
   is an example of a optimal performance paradigm of simply "doing less"
@@ -54,18 +92,12 @@ the other way around.
   *why*, not the *what*.
 - **Return error/sentinel values and check at the call site** (Go/Odin style).
   Avoid exception-driven control flow.
-- **Do not abstract early.** Premature generalization is a dangerous pitfall.
-  This code will likely never be reused, and early abstraction wastes time.
-- **The "rule of three" is not a mandate.** Repeating logic 2–3 times does not
-  automatically justify extracting a helper. Inline, cohesive functions are
-  fine and often better.
-- **Prefer Struct-of-Arrays (SoA) by default** for cache efficiency.
 - **Preallocate bounded buffers** sized to a known max; Only grow dynamically
   when no sensible bound exists.
 - **Prefer stack allocation over heap** wherever the lifetime is bounded.
 - **Use strong/distinct domain types** (Odin `distinct` types, units like
-  seconds or meters) to prevent mixing incompatible values.
-- Plain primitives are fine where a domain type adds no real safety.
+  seconds or meters) to prevent mixing incompatible values. Plain primitives 
+  are fine where a domain type adds no real safety.
 - **Prefer fuller, descriptive names** over terse abbreviations.
 - **Hand-rolling is usually fine.** A dependency is code you don't control or
   fully understand, and you typically use a fraction of it while paying its full
@@ -106,8 +138,6 @@ the other way around.
   one-pass loops rather than calling a function per entity.
 - **Smallest numeric type that fits** (e.g. `u8`/`u16`/`f32`) to pack cache
   lines, when it doesn't cost correctness.
-- **Performance-first by default**, even on cold paths — but the heaviest
-  optimization effort belongs on the measured hot path.
 - **Precompute aggressively.** Whenever results are static, compute them at
   compile time, in a preprocessing step, or once during initialization, instead
   of recomputing at runtime. Actively hunt for these opportunities.

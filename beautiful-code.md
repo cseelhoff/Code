@@ -1,10 +1,10 @@
 # Beautiful Code — Reference Examples
 
-> Companion to `.github/copilot-instructions.md`. A catalog of "good code"
-> patterns that respect the machine, paired against the generic "slop" an AI
-> tends to emit by default. All examples in Odin. The throughline: do the work
-> once analytically, exploit the actual data representation, and let the machine
-> do less.
+> Companion to `User/prompts/copilot-instructions.md` (this Copilot config
+> profile). A catalog of "good code" patterns that respect the machine, paired
+> against the generic "slop" an AI tends to emit by default. All examples in
+> Odin. The throughline: do the work once analytically, exploit the actual data
+> representation, and let the machine do less.
 >
 > Axes covered: bit-level representation tricks, closed-form over per-tick
 > polling, bitsets + bitwise ops, tagged unions over virtual dispatch, SoA over
