@@ -1,7 +1,3 @@
----
-applyTo: "**"
----
-
 # Coding Style Instructions
 
 > Captures the author's coding preferences so AI assistants (GitHub Copilot,

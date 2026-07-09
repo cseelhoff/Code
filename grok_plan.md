@@ -40,7 +40,7 @@ Portable **VS Code user-data** layout for GitHub Copilot. Install: copy `User/` 
 | Layer | Path | Behavior |
 |-------|------|----------|
 | Always-on | `User/prompts/copilot-instructions.md` | Global coding style / philosophy |
-| Skills | `User/prompts/skills/<name>/SKILL.md` | On-demand / model-triggered workflows (`name` + `description` frontmatter) |
+| Skills | `agents/skills/<name>/SKILL.md` | On-demand / model-triggered workflows (`name` + `description` frontmatter) |
 | Reference | `beautiful-code.md` | Attach for representation-level / hot-path work |
 
 ### Existing philosophy (non-negotiables)
@@ -275,7 +275,7 @@ If unknown keys are stripped/ignored, put `Source:` + license in the skill body 
 
 ### 7.6 Flattening and self-containment
 
-- Skills live at `User/prompts/skills/<name>/` (no `engineering/` / `productivity/` folders)  
+- Skills live at `agents/skills/<name>/` (no `engineering/` / `productivity/` folders)  
 - Port by shallow-clone → copy folder → **strip dangling references** to un-ported skills (`/tdd`, `/implement`, issue tracker, `ask-matt`, etc.)  
 - Every skill must be self-contained  
 
@@ -322,16 +322,16 @@ No default TDD loop. No tracker pipeline.
 | # | File | Action | Phase |
 |---|------|--------|-------|
 | 1 | `User/prompts/copilot-instructions.md` | Adapted ladder + §5 conflict order | A |
-| 2 | `User/prompts/skills/ponytail/SKILL.md` | Adapted + house rules + levels | A |
-| 3 | `User/prompts/skills/ponytail-review/SKILL.md` | Over-eng + DOD inverse | A |
-| 4 | `User/prompts/skills/diagnosing-bugs/SKILL.md` (+ support) | Port | A |
-| 5 | `User/prompts/skills/handoff/SKILL.md` | Port | A |
-| 6 | `User/prompts/skills/code-review/SKILL.md` | Port + Standards = this profile | B |
-| 7 | `User/prompts/skills/research/SKILL.md` | Port + light VS Code adaptation | B |
-| 8 | `User/prompts/skills/writing-great-skills/…` | Port + glossary if needed | B |
-| 9 | `User/prompts/skills/ponytail-audit/SKILL.md` | Port | C |
-| 10 | `User/prompts/skills/ponytail-debt/SKILL.md` | Port | C |
-| 11 | `User/prompts/skills/ask-skills/SKILL.md` | Optional local router | C |
+| 2 | `agents/skills/ponytail/SKILL.md` | Adapted + house rules + levels | A |
+| 3 | `agents/skills/ponytail-review/SKILL.md` | Over-eng + DOD inverse | A |
+| 4 | `agents/skills/diagnosing-bugs/SKILL.md` (+ support) | Port | A |
+| 5 | `agents/skills/handoff/SKILL.md` | Port | A |
+| 6 | `agents/skills/code-review/SKILL.md` | Port + Standards = this profile | B |
+| 7 | `agents/skills/research/SKILL.md` | Port + light VS Code adaptation | B |
+| 8 | `agents/skills/writing-great-skills/…` | Port + glossary if needed | B |
+| 9 | `agents/skills/ponytail-audit/SKILL.md` | Port | C |
+| 10 | `agents/skills/ponytail-debt/SKILL.md` | Port | C |
+| 11 | `agents/skills/ask-skills/SKILL.md` | Optional local router | C |
 | 12 | `README.md` | Skills catalog + Credits (MIT + URLs) | with A/B |
 | 13 | `beautiful-code.md` | Fix stale companion path (`.github/…` → `User/prompts/…`) | A |
 
@@ -340,7 +340,7 @@ No default TDD loop. No tracker pipeline.
 ## 10. Porting method
 
 1. Shallow-clone both MIT repos to a temp dir (exact sources + supporting files).  
-2. Copy selected skill folders under `User/prompts/skills/<name>/` (flattened).  
+2. Copy selected skill folders under `agents/skills/<name>/` (flattened).  
 3. Apply ladder / house-rule / Standards adaptations; strip dangling cross-skill refs.  
 4. Preserve MIT attribution (frontmatter and/or README Credits).  
 5. Verify (§11).  
@@ -445,7 +445,7 @@ Wording is vague relative to the skip list.
 
 ## 15. What the two plans always agreed on
 
-- Vendored MIT skills into `User/prompts/skills/`, not full upstream monorepos  
+- Vendored MIT skills into `agents/skills/`, not full upstream monorepos  
 - Always-on ladder **and** invokable `ponytail`  
 - Adapt, don’t blind-copy, where house style conflicts  
 - §5 boring-vs-clever / performance conflict order (author-confirmed)  

@@ -3,12 +3,29 @@
 Repeatable process for vendoring selected skills from
 [mattpocock/skills](https://github.com/mattpocock/skills) and
 [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) into this
-repo (`User/prompts/`). Use this when either upstream releases updates you want
-to re-port, or when implementing the next approved phase.
+repo (`agents/skills/` + always-on instruction files). Use this when either
+upstream releases updates you want to re-port, or when re-running a phase.
 
 **Design authority:** `grok_plan.md` + `claude_plan.md` (base philosophy) +
 **this file** for phase status and re-port procedure.  
-**Status:** Phases **A–E implemented** (see [Run log](#run-log)).
+**Status:** Phases **A–E implemented**. Layout: skills live under **`agents/skills/`** (install → `~/.agents/skills/` for Copilot + Grok). See [Layout](#layout-copilot--grok).
+
+---
+
+## Layout (Copilot + Grok)
+
+Research (VS Code docs + Grok user guide + xAI docs):
+
+| Artifact | Repo path | Personal install |
+|----------|-----------|------------------|
+| Skills | `agents/skills/<name>/` | `~/.agents/skills/` (Copilot **and** Grok) |
+| Copilot always-on | `User/prompts/copilot-instructions.md` | VS Code profile `User/prompts/` |
+| Grok always-on | `AGENTS.md` | `~/.grok/AGENTS.md` (or project root) |
+| Style source of truth | `shared/coding-style.md` | run `scripts/sync-instructions.sh` after edits |
+
+**Not a skill path:** `User/prompts/skills/` — Copilot does not discover skills there.
+
+When re-porting skills, write under `agents/skills/`, not under `User/prompts/`.
 
 ---
 
@@ -29,8 +46,8 @@ to re-port, or when implementing the next approved phase.
 | `ponytail-audit` / `ponytail-debt` | Still deferred (after C–E or when audit pain appears) |
 | `ask-skills` | Still deferred (README catalog first) |
 | Still skip | `ponytail-gain`, `ponytail-help`, `teach`, `prototype`, `improve-codebase-architecture`, Copilot CLI hooks/plugins, personal/misc Matt skills |
-| Frontmatter | Ship `name` + `description`; `license: MIT`; put `Source:` in body. Do **not** ship `disable-model-invocation` until verified on VS Code loader |
-| Layout | Flatten under `User/prompts/skills/<name>/` (no category folders) |
+| Frontmatter | Ship `name` + `description`; `license: MIT`; put `Source:` in body. `disable-model-invocation` is supported by VS Code Copilot and Grok — use when a skill should be slash-only |
+| Layout | Skills under `agents/skills/<name>/` (install → `~/.agents/skills/`) |
 
 ---
 
@@ -41,36 +58,36 @@ to re-port, or when implementing the next approved phase.
 | Skill | Upstream path | Local path |
 |-------|---------------|------------|
 | (always-on ladder) | ponytail ladder | `User/prompts/copilot-instructions.md` |
-| `ponytail` | `skills/ponytail/SKILL.md` | `User/prompts/skills/ponytail/SKILL.md` |
-| `ponytail-review` | `skills/ponytail-review/SKILL.md` | `User/prompts/skills/ponytail-review/SKILL.md` |
-| `diagnosing-bugs` | `skills/engineering/diagnosing-bugs/` | `User/prompts/skills/diagnosing-bugs/` |
-| `handoff` | `skills/productivity/handoff/SKILL.md` | `User/prompts/skills/handoff/SKILL.md` |
+| `ponytail` | `skills/ponytail/SKILL.md` | `agents/skills/ponytail/SKILL.md` |
+| `ponytail-review` | `skills/ponytail-review/SKILL.md` | `agents/skills/ponytail-review/SKILL.md` |
+| `diagnosing-bugs` | `skills/engineering/diagnosing-bugs/` | `agents/skills/diagnosing-bugs/` |
+| `handoff` | `skills/productivity/handoff/SKILL.md` | `agents/skills/handoff/SKILL.md` |
 | path fix | — | `beautiful-code.md` header |
 
 ### Phase B (workflow) — **done**
 
 | Skill | Upstream path | Local path |
 |-------|---------------|------------|
-| `code-review` | `skills/engineering/code-review/SKILL.md` | `User/prompts/skills/code-review/SKILL.md` |
-| `research` | `skills/engineering/research/SKILL.md` | `User/prompts/skills/research/SKILL.md` |
-| `writing-great-skills` | `skills/productivity/writing-great-skills/` | `User/prompts/skills/writing-great-skills/` |
-| `codebase-design` | `skills/engineering/codebase-design/` | `User/prompts/skills/codebase-design/` |
+| `code-review` | `skills/engineering/code-review/SKILL.md` | `agents/skills/code-review/SKILL.md` |
+| `research` | `skills/engineering/research/SKILL.md` | `agents/skills/research/SKILL.md` |
+| `writing-great-skills` | `skills/productivity/writing-great-skills/` | `agents/skills/writing-great-skills/` |
+| `codebase-design` | `skills/engineering/codebase-design/` | `agents/skills/codebase-design/` |
 
 ### Phase C (grill family) — **done**
 
 | Skill | Upstream path | Local path |
 |-------|---------------|------------|
-| `grilling` | `skills/productivity/grilling/SKILL.md` | `User/prompts/skills/grilling/SKILL.md` |
-| `domain-modeling` | `skills/engineering/domain-modeling/` | `User/prompts/skills/domain-modeling/` (+ formats) |
-| `grill-me` | `skills/productivity/grill-me/SKILL.md` | `User/prompts/skills/grill-me/SKILL.md` |
-| `grill-with-docs` | thin wrapper | `User/prompts/skills/grill-with-docs/SKILL.md` only |
+| `grilling` | `skills/productivity/grilling/SKILL.md` | `agents/skills/grilling/SKILL.md` |
+| `domain-modeling` | `skills/engineering/domain-modeling/` | `agents/skills/domain-modeling/` (+ formats) |
+| `grill-me` | `skills/productivity/grill-me/SKILL.md` | `agents/skills/grill-me/SKILL.md` |
+| `grill-with-docs` | thin wrapper | `agents/skills/grill-with-docs/SKILL.md` only |
 
 ### Phase D (build loop) — **done**
 
 | Skill | Upstream path | Local path |
 |-------|---------------|------------|
-| `tdd` | `skills/engineering/tdd/` | `User/prompts/skills/tdd/` |
-| `implement` | `skills/engineering/implement/SKILL.md` | `User/prompts/skills/implement/SKILL.md` |
+| `tdd` | `skills/engineering/tdd/` | `agents/skills/tdd/` |
+| `implement` | `skills/engineering/implement/SKILL.md` | `agents/skills/implement/SKILL.md` |
 
 **House rule:** default coding = tests after; `tdd` / `implement` red-green is opt-in at agreed seams.
 
@@ -78,11 +95,11 @@ to re-port, or when implementing the next approved phase.
 
 | Skill | Upstream path | Local path |
 |-------|---------------|------------|
-| `setup-matt-pocock-skills` | `skills/engineering/setup-matt-pocock-skills/` | `User/prompts/skills/setup-matt-pocock-skills/` |
-| `to-spec` | `skills/engineering/to-spec/SKILL.md` | `User/prompts/skills/to-spec/SKILL.md` |
-| `to-tickets` | `skills/engineering/to-tickets/SKILL.md` | `User/prompts/skills/to-tickets/SKILL.md` |
-| `triage` | `skills/engineering/triage/` | `User/prompts/skills/triage/` |
-| `wayfinder` | `skills/engineering/wayfinder/SKILL.md` | `User/prompts/skills/wayfinder/SKILL.md` |
+| `setup-matt-pocock-skills` | `skills/engineering/setup-matt-pocock-skills/` | `agents/skills/setup-matt-pocock-skills/` |
+| `to-spec` | `skills/engineering/to-spec/SKILL.md` | `agents/skills/to-spec/SKILL.md` |
+| `to-tickets` | `skills/engineering/to-tickets/SKILL.md` | `agents/skills/to-tickets/SKILL.md` |
+| `triage` | `skills/engineering/triage/` | `agents/skills/triage/` |
+| `wayfinder` | `skills/engineering/wayfinder/SKILL.md` | `agents/skills/wayfinder/SKILL.md` |
 
 **Use order in a target repo:** `setup-matt-pocock-skills` once → grill → to-spec → to-tickets → implement (or triage / wayfinder).
 
@@ -137,7 +154,7 @@ Optional later: `ponytail-audit` / `ponytail-debt`.
 
 - Working tree clean enough to review a focused diff.
 - Read pinned decisions in this file.
-- Note current local skill list: `ls User/prompts/skills/`.
+- Note current local skill list: `ls agents/skills/`.
 
 ### 1. Fetch pinned upstreams
 
@@ -160,10 +177,10 @@ For each skill in the inventory (A–E as they exist locally):
 
 ```bash
 # Example
-diff -u User/prompts/skills/ponytail/SKILL.md \
+diff -u agents/skills/ponytail/SKILL.md \
   "$TMP/pony/skills/ponytail/SKILL.md" | less
 
-diff -u User/prompts/skills/tdd/SKILL.md \
+diff -u agents/skills/tdd/SKILL.md \
   "$TMP/matt/skills/engineering/tdd/SKILL.md" | less
 ```
 
@@ -215,19 +232,19 @@ adds skills. Document setup-once for tracker suite after Phase E.
 
 ```bash
 # Frontmatter shape
-rg -n '^---' -A6 User/prompts/skills/*/SKILL.md
+rg -n '^---' -A6 agents/skills/*/SKILL.md
 
 # Refs to skills we intentionally skip (should be zero or only in "do not use" notes)
 rg -n 'ask-matt|/prototype|improve-codebase-architecture|/ponytail-gain|/ponytail-help' \
-  User/prompts/skills/ || true
+  agents/skills/ || true
 
 # After Phase C: formats live under domain-modeling; grill-with-docs is thin
-ls User/prompts/skills/domain-modeling/
-head -20 User/prompts/skills/grill-with-docs/SKILL.md
-head -20 User/prompts/skills/grill-me/SKILL.md
+ls agents/skills/domain-modeling/
+head -20 agents/skills/grill-with-docs/SKILL.md
+head -20 agents/skills/grill-me/SKILL.md
 
 # List skills
-ls -1 User/prompts/skills/
+ls -1 agents/skills/
 ```
 
 Manual:
@@ -383,3 +400,27 @@ Standalone: `tdd`, `diagnosing-bugs`, `ponytail` / `ponytail-review`, `research`
 
 **Still deferred:** `ponytail-audit`, `ponytail-debt`, `ask-skills`.  
 **Still skipped:** gain/help, teach, prototype skill, improve-codebase-architecture, CLI hooks.
+
+### 2026-07-09 — layout restructure (agents/skills + dual-agent install)
+
+| Field | Value |
+|-------|--------|
+| Operator | Grok (agent) |
+| Trigger | Research Copilot + Grok skill paths; merge-conflict origin README |
+
+**Findings**
+
+- Copilot personal skills: `~/.agents/skills/`, `~/.copilot/skills/`, `~/.claude/skills/` (not `User/prompts/skills/`).
+- Grok personal skills: `~/.grok/skills/` and **`~/.agents/skills/`** (also project `.agents/skills/`, `.grok/skills/`).
+- Shared personal skill root for both: **`~/.agents/skills/`**.
+- Always-on: Copilot → profile instructions; Grok → `AGENTS.md` / `~/.grok/`.
+
+**Steps taken**
+
+1. `git mv User/prompts/skills` → `agents/skills`.
+2. Added `shared/coding-style.md` as source of truth; `scripts/sync-instructions.sh`.
+3. Synced `User/prompts/copilot-instructions.md` + root `AGENTS.md`.
+4. Rewrote `README.md` (layout, Windows/Linux install, Grok install, project-local).
+5. Updated playbook/plan path strings to `agents/skills/`.
+
+**Resolves origin conflict intent:** origin README documented `agents/` → `~/.agents` but never moved files; this run implements that layout fully and keeps the local skill suite.

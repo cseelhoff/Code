@@ -32,7 +32,7 @@ frontmatter, plus a Credits section in the README.
 
 - `User/prompts/copilot-instructions.md` — always-on (`applyTo: "**"`).
   Data-oriented design, procedural, performance-first, anti-over-engineering.
-- `User/prompts/skills/<name>/SKILL.md` — the skill loader path. Frontmatter
+- `agents/skills/<name>/SKILL.md` — the skill loader path. Frontmatter
   requires `name` + `description`. `grill-with-docs` is already vendored here
   (flattened — no `engineering/` or `productivity/` category folder).
 - `beautiful-code.md` — 20 slop-vs-lean Odin reference examples.
@@ -151,14 +151,14 @@ always-on ladder section (Layer 1) and restated as a house-rule block inside the
 | # | File | Action | Phase |
 |---|------|--------|-------|
 | 1 | `User/prompts/copilot-instructions.md` | Adapted ladder (~12 lines, soft-default rung 5) + § conflict order | A |
-| 2 | `User/prompts/skills/ponytail/SKILL.md` | Adapted ladder; house-rule block (DOD + conflict order); `lite/full/ultra`; `argument-hint`; MIT + source | A |
-| 3 | `User/prompts/skills/ponytail-review/SKILL.md` | Over-engineering delete-list **+ DOD inverse** (lean-but-cache-hostile / wrong layout) | A |
-| 4 | `User/prompts/skills/diagnosing-bugs/SKILL.md` (+ support) | Port + adapt; strip dangling refs | A |
-| 5 | `User/prompts/skills/handoff/SKILL.md` | Port + adapt | A |
-| 6 | `User/prompts/skills/code-review/SKILL.md` | Port; **DOD-primary Standards**; Fowler heavily filtered; optional complexity pass | B |
-| 7 | `User/prompts/skills/research/SKILL.md` | Port + light VS Code adaptation | B |
-| 8 | `User/prompts/skills/writing-great-skills/SKILL.md` | Port (+ glossary if present) | B |
-| 9 | `User/prompts/skills/codebase-design/SKILL.md` | Port **heavily adapted** — plain data + free functions; strip class/interface framing | B |
+| 2 | `agents/skills/ponytail/SKILL.md` | Adapted ladder; house-rule block (DOD + conflict order); `lite/full/ultra`; `argument-hint`; MIT + source | A |
+| 3 | `agents/skills/ponytail-review/SKILL.md` | Over-engineering delete-list **+ DOD inverse** (lean-but-cache-hostile / wrong layout) | A |
+| 4 | `agents/skills/diagnosing-bugs/SKILL.md` (+ support) | Port + adapt; strip dangling refs | A |
+| 5 | `agents/skills/handoff/SKILL.md` | Port + adapt | A |
+| 6 | `agents/skills/code-review/SKILL.md` | Port; **DOD-primary Standards**; Fowler heavily filtered; optional complexity pass | B |
+| 7 | `agents/skills/research/SKILL.md` | Port + light VS Code adaptation | B |
+| 8 | `agents/skills/writing-great-skills/SKILL.md` | Port (+ glossary if present) | B |
+| 9 | `agents/skills/codebase-design/SKILL.md` | Port **heavily adapted** — plain data + free functions; strip class/interface framing | B |
 | 10 | `README.md` | Skills catalog + Credits (MIT + URLs) | A/B |
 | 11 | `beautiful-code.md` | Fix stale companion path (`.github/…` → `User/prompts/…`) | A |
 | — | `ponytail-audit`, `ponytail-debt` | **Deferred fast-follow** (repo-wide audit / `ponytail:` ledger) | later |
@@ -170,7 +170,7 @@ always-on ladder section (Layer 1) and restated as a house-rule block inside the
 1. Shallow-clone both MIT repos to a temp dir to get exact source files (avoids
    transcription errors and captures each skill's supporting files).
 2. Copy each selected skill folder wholesale, **flattened** directly under
-   `User/prompts/skills/<name>/` (matching `grill-with-docs`).
+   `agents/skills/<name>/` (matching `grill-with-docs`).
 3. Apply the ladder adaptation and strip dangling references to un-ported skills
    so every ported skill is self-contained.
 4. Preserve MIT attribution.

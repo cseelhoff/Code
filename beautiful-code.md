@@ -1,9 +1,10 @@
 # Beautiful Code — Reference Examples
 
-> Companion to `User/prompts/copilot-instructions.md` (this Copilot config
-> profile). A catalog of "good code" patterns that respect the machine, paired
-> against the generic "slop" an AI tends to emit by default. All examples in
-> Odin. The throughline: do the work once analytically, exploit the actual data
+> Companion to always-on style (`shared/coding-style.md`, installed as
+> `User/prompts/copilot-instructions.md` for Copilot and `AGENTS.md` for Grok).
+> A catalog of "good code" patterns that respect the machine, paired against
+> the generic "slop" an AI tends to emit by default. All examples in Odin. The
+> throughline: do the work once analytically, exploit the actual data
 > representation, and let the machine do less.
 >
 > Axes covered: bit-level representation tricks, closed-form over per-tick
