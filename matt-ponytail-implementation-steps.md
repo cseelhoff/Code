@@ -8,8 +8,7 @@ to re-port, or when implementing the next approved phase.
 
 **Design authority:** `grok_plan.md` + `claude_plan.md` (base philosophy) +
 **this file** for phase status and re-port procedure.  
-**Status:** Phase **A + B done**. Phases **C–E approved, not yet implemented**
-(see [Approved next phases](#approved-next-phases-c–e)).
+**Status:** Phases **A–E implemented** (see [Run log](#run-log)).
 
 ---
 
@@ -20,11 +19,11 @@ to re-port, or when implementing the next approved phase.
 | Ladder rung 5 | Soft default: already-vendored OK; prefer hand-roll; stdlib/builtins + battle-tested focused packages OK; **new** dep only on explicit request or unbeatable-package case |
 | Boring vs clever | Conflict order: correctness → real performance → minimalism → clever-without-payoff rejected |
 | Always-on tests stance | Prefer tests **after** code for normal work (`copilot-instructions.md`). **`tdd` is opt-in** when the user invokes it or when `implement` drives red-green at agreed seams |
-| `grill-with-docs` | **Split shape (Phase C):** thin wrapper = `grilling` + `domain-modeling`. Replace monolithic body |
-| `grill-me` | **Port** — grilling without docs (no codebase / no CONTEXT) |
-| `grilling` + `domain-modeling` | **Port** as model-reachable primitives; formats live under `domain-modeling/` |
-| `tdd` / `implement` | **Port (Phase D)** — not skipped |
-| Tracker suite | **Port (Phase E):** `setup-matt-pocock-skills`, `to-spec`, `to-tickets`, `triage`, `wayfinder` |
+| `grill-with-docs` | **Split shape (done):** thin wrapper = `grilling` + `domain-modeling` |
+| `grill-me` | **Done** — grilling without docs |
+| `grilling` + `domain-modeling` | **Done** — formats under `domain-modeling/` |
+| `tdd` / `implement` | **Done** — TDD opt-in; always-on stays tests-after |
+| Tracker suite | **Done:** `setup-matt-pocock-skills`, `to-spec`, `to-tickets`, `triage`, `wayfinder` |
 | `code-review` Standards | DOD-primary (`copilot-instructions.md` + `beautiful-code.md`); Fowler secondary, heavily filtered |
 | `codebase-design` | Heavily adapted (plain data + free functions) — already shipped |
 | `ponytail-audit` / `ponytail-debt` | Still deferred (after C–E or when audit pain appears) |
@@ -57,53 +56,35 @@ to re-port, or when implementing the next approved phase.
 | `writing-great-skills` | `skills/productivity/writing-great-skills/` | `User/prompts/skills/writing-great-skills/` |
 | `codebase-design` | `skills/engineering/codebase-design/` | `User/prompts/skills/codebase-design/` |
 
-### Phase C (grill family) — **approved, not implemented**
+### Phase C (grill family) — **done**
 
-| Skill | Upstream path | Local path (target) | Notes |
-|-------|---------------|---------------------|--------|
-| `grilling` | `skills/productivity/grilling/SKILL.md` | `User/prompts/skills/grilling/SKILL.md` | Interview primitive |
-| `domain-modeling` | `skills/engineering/domain-modeling/` | `User/prompts/skills/domain-modeling/` | + `CONTEXT-FORMAT.md`, `ADR-FORMAT.md` |
-| `grill-me` | `skills/productivity/grill-me/SKILL.md` | `User/prompts/skills/grill-me/SKILL.md` | Thin: run `grilling` only |
-| `grill-with-docs` | `skills/engineering/grill-with-docs/SKILL.md` | `User/prompts/skills/grill-with-docs/SKILL.md` | **Replace** monolith with thin: run `grilling` + `domain-modeling`; **remove** local copies of format files from this folder once they live under `domain-modeling/` |
+| Skill | Upstream path | Local path |
+|-------|---------------|------------|
+| `grilling` | `skills/productivity/grilling/SKILL.md` | `User/prompts/skills/grilling/SKILL.md` |
+| `domain-modeling` | `skills/engineering/domain-modeling/` | `User/prompts/skills/domain-modeling/` (+ formats) |
+| `grill-me` | `skills/productivity/grill-me/SKILL.md` | `User/prompts/skills/grill-me/SKILL.md` |
+| `grill-with-docs` | thin wrapper | `User/prompts/skills/grill-with-docs/SKILL.md` only |
 
-**Migration note:** Today `grill-with-docs/` still holds the old monolithic body +
-`CONTEXT-FORMAT.md` + `ADR-FORMAT.md`. Phase C moves formats to `domain-modeling/`,
-thins both grill wrappers, and deletes duplicate format files from `grill-with-docs/`.
+### Phase D (build loop) — **done**
 
-### Phase D (build loop) — **approved, not implemented**
+| Skill | Upstream path | Local path |
+|-------|---------------|------------|
+| `tdd` | `skills/engineering/tdd/` | `User/prompts/skills/tdd/` |
+| `implement` | `skills/engineering/implement/SKILL.md` | `User/prompts/skills/implement/SKILL.md` |
 
-| Skill | Upstream path | Local path (target) | Adaptation |
-|-------|---------------|---------------------|------------|
-| `tdd` | `skills/engineering/tdd/` | `User/prompts/skills/tdd/` | Port `SKILL.md`, `tests.md`, `mocking.md`. Opt-in red-green; do not rewrite always-on to force TDD. Prefer seams + behaviour tests; avoid Clean-Code / mock-heavy pressure that fights DOD |
-| `implement` | `skills/engineering/implement/SKILL.md` | `User/prompts/skills/implement/SKILL.md` | Drive `tdd` at **pre-agreed** seams when useful; close with `code-review` (and optional `ponytail-review`). Point at local skill names, not missing tracker unless Phase E is done |
+**House rule:** default coding = tests after; `tdd` / `implement` red-green is opt-in at agreed seams.
 
-**House rule while both always-on and `tdd` exist:**
+### Phase E (tracker suite) — **done**
 
-- Default coding (no skill): tests after, focused on critical paths (instructions).
-- User invokes `tdd` or `implement` with red-green intent: follow the skill.
-- Never let `implement` silently expand into dogmatic full-suite TDD without agreed seams.
+| Skill | Upstream path | Local path |
+|-------|---------------|------------|
+| `setup-matt-pocock-skills` | `skills/engineering/setup-matt-pocock-skills/` | `User/prompts/skills/setup-matt-pocock-skills/` |
+| `to-spec` | `skills/engineering/to-spec/SKILL.md` | `User/prompts/skills/to-spec/SKILL.md` |
+| `to-tickets` | `skills/engineering/to-tickets/SKILL.md` | `User/prompts/skills/to-tickets/SKILL.md` |
+| `triage` | `skills/engineering/triage/` | `User/prompts/skills/triage/` |
+| `wayfinder` | `skills/engineering/wayfinder/SKILL.md` | `User/prompts/skills/wayfinder/SKILL.md` |
 
-### Phase E (tracker suite) — **approved, not implemented**
-
-| Skill | Upstream path | Local path (target) | Notes |
-|-------|---------------|---------------------|--------|
-| `setup-matt-pocock-skills` | `skills/engineering/setup-matt-pocock-skills/` | `User/prompts/skills/setup-matt-pocock-skills/` | Full folder: issue-tracker-github/gitlab/local, triage-labels, domain.md. Run **once per target repo** before other tracker skills |
-| `to-spec` | `skills/engineering/to-spec/SKILL.md` | `User/prompts/skills/to-spec/SKILL.md` | Reads tracker config from `docs/agents/` (or whatever setup writes) |
-| `to-tickets` | `skills/engineering/to-tickets/SKILL.md` | `User/prompts/skills/to-tickets/SKILL.md` | Tracer-bullet tickets + blocking edges |
-| `triage` | `skills/engineering/triage/` | `User/prompts/skills/triage/` | + `AGENT-BRIEF.md`, `OUT-OF-SCOPE.md` |
-| `wayfinder` | `skills/engineering/wayfinder/SKILL.md` | `User/prompts/skills/wayfinder/SKILL.md` | Multi-session investigation map on tracker |
-
-**Order for Phase E implement:** setup skill first, then the four consumers.
-**Order for use in a repo:** run `setup-matt-pocock-skills` once → then
-grill → to-spec → to-tickets → implement, or triage / wayfinder as on-ramps.
-
-**Adaptation for global profile:**
-
-- Keep skill names as upstream so cross-refs work (`setup-matt-pocock-skills`, etc.).
-- Strip or rephrase host-only assumptions (Claude plugin paths); keep `gh` / local markdown flows.
-- Ensure every “run setup if missing” pointer names the local skill folder.
-- After E ships, **re-link** earlier skills that currently avoid tracker deps
-  (`code-review` Spec axis may use issue tracker again when `docs/agents/issue-tracker.md` exists).
+**Use order in a target repo:** `setup-matt-pocock-skills` once → grill → to-spec → to-tickets → implement (or triage / wayfinder).
 
 ### Deferred (still)
 
@@ -124,61 +105,29 @@ grill → to-spec → to-tickets → implement, or triage / wayfinder as on-ramp
 
 ---
 
-## Approved next phases (C–E)
+## Phase C–E checklists (for re-port / re-run)
 
-Implement in this order unless you only need a subset:
+Use when re-porting after upstream updates. First implementation completed 2026-07-09.
 
-```text
-Phase C  grill family (grilling, domain-modeling, grill-me, thin grill-with-docs)
-   ↓
-Phase D  tdd + implement
-   ↓
-Phase E  setup-matt-pocock-skills → to-spec, to-tickets, triage, wayfinder
-   ↓
-Then: README catalog + handoff suggested-skills list + re-verify cross-refs
-Optional later: ponytail-audit / ponytail-debt
-```
+### Phase C
 
-### Phase C steps (checklist)
+1. Port `grilling`, `domain-modeling/` (with formats), thin `grill-me` + `grill-with-docs`.
+2. Formats only under `domain-modeling/`; no format files under `grill-with-docs/`.
+3. MIT + Source footers; no `disable-model-invocation`.
 
-1. Fetch matt @ pinned tag (see §1).
-2. Port `grilling/SKILL.md` (near-verbatim; MIT + Source footer).
-3. Port `domain-modeling/` (`SKILL.md`, `CONTEXT-FORMAT.md`, `ADR-FORMAT.md`).
-   Prefer upstream formats; diff against current `grill-with-docs/*-FORMAT.md`
-   and keep any local improvements that still apply.
-4. Port `grill-me` as thin wrapper: run `grilling`.
-5. Replace `grill-with-docs/SKILL.md` with thin wrapper: run `grilling` +
-   `domain-modeling`. Delete `grill-with-docs/CONTEXT-FORMAT.md` and
-   `ADR-FORMAT.md` after formats live under `domain-modeling/`.
-6. Grep for broken relative links to old format paths.
-7. Update README + handoff suggested skills.
-8. Log run.
+### Phase D
 
-### Phase D steps (checklist)
+1. Port `tdd/` (`SKILL.md`, `tests.md`, `mocking.md`) with DOD / public-surface language.
+2. Port `implement` → `tdd` at seams, `code-review`, optional `ponytail-review`.
+3. Always-on remains tests-after by default.
 
-1. Port `tdd/` fully (`SKILL.md`, `tests.md`, `mocking.md`).
-2. Light-adapt for house style: tagged unions OK; don’t push interface/class
-   testing patterns; seams language should match `codebase-design` (public surface
-   over free functions + data) where it mentions modules.
-3. Port `implement/SKILL.md`; wire to `tdd`, `code-review`; optional
-   `ponytail-review`; if Phase E not done yet, say tracker skills optional /
-   run setup when available.
-4. Confirm always-on instructions still say tests-after by default (no forced TDD).
-5. README + handoff list; log run.
+### Phase E
 
-### Phase E steps (checklist)
+1. Port `setup-matt-pocock-skills/` + `to-spec`, `to-tickets`, `triage/`, `wayfinder`.
+2. Strip refs to skipped skills (`improve-codebase-architecture`, dedicated `/prototype` skill, etc.).
+3. Keep setup pointers; `code-review` may use `docs/agents/issue-tracker.md` when present.
 
-1. Port entire `setup-matt-pocock-skills/` folder.
-2. Port `to-spec`, `to-tickets`, `triage/` (with support files), `wayfinder`.
-3. Strip dangling refs to un-ported skills only (`ask-matt`, `prototype`,
-   `improve-codebase-architecture`, `ponytail-gain`, etc.).
-4. Keep refs among ported skills (`tdd`, `implement`, `grill-with-docs`, setup, …).
-5. Optionally tighten `code-review` Spec axis to use setup’s issue-tracker doc
-   when present (restore upstream-style fetch when configured).
-6. README: document “run setup once per repo” for tracker skills.
-7. Verify: no skill points at missing `docs/agents/issue-tracker.md` without
-   telling the user to run setup.
-8. Log run.
+Optional later: `ponytail-audit` / `ponytail-debt`.
 
 ---
 
@@ -401,4 +350,36 @@ Standalone: `tdd`, `diagnosing-bugs`, `ponytail` / `ponytail-review`, `research`
 1. Updated this playbook: pinned decisions, inventory Phases C–E, checklists, flow diagram, verify rules for cross-refs among ported skills.  
 2. **Did not implement** C–E in this run — playbook update only.
 
-**Next run:** implement Phase C (then D, then E) per checklists above; append a new run-log section when done.
+**Next run:** implemented in following entry.
+
+### 2026-07-09 — Phase C → D → E implementation
+
+| Field | Value |
+|-------|--------|
+| Operator | Grok (agent) |
+| mattpocock/skills | tag **v1.1.0**, SHA `d574778f94cf620fcc8ce741584093bc650a61d3` |
+
+**Phase C**
+
+1. Ported `grilling`, `domain-modeling` (+ CONTEXT/ADR formats), thin `grill-me`.
+2. Replaced monolithic `grill-with-docs` with thin wrapper; removed format files from that folder.
+
+**Phase D**
+
+1. Ported `tdd` (+ `tests.md`, `mocking.md`) — opt-in; public-surface / DOD language.
+2. Ported `implement` — tdd at seams, code-review, optional ponytail-review; tests-after escape hatch.
+
+**Phase E**
+
+1. Ported `setup-matt-pocock-skills` (full seed docs).
+2. Ported `to-spec`, `to-tickets`, `triage` (+ AGENT-BRIEF, OUT-OF-SCOPE), `wayfinder`.
+3. Stripped `disable-model-invocation`; removed improve-codebase / dedicated prototype skill deps; fixed stray `</content>` on to-tickets.
+4. Relinked `code-review` Spec axis to `docs/agents/issue-tracker.md` when setup has been run.
+
+**Meta**
+
+1. Updated `handoff` suggested-skills list and `README.md` catalog.
+2. Updated this playbook status and inventory to A–E done.
+
+**Still deferred:** `ponytail-audit`, `ponytail-debt`, `ask-skills`.  
+**Still skipped:** gain/help, teach, prototype skill, improve-codebase-architecture, CLI hooks.

@@ -14,13 +14,17 @@ the current workspace — unless the user asks for a path in the repo.
 Include a **"suggested skills"** section naming only skills that exist in this
 profile when relevant, for example:
 
-- `grill-with-docs` — sharpen plan / domain language
+- `setup-matt-pocock-skills` — once per target repo (tracker + domain layout)
+- `grill-with-docs` / `grill-me` / `grilling` / `domain-modeling` — align + docs
+- `to-spec` / `to-tickets` / `triage` / `wayfinder` — plan on the tracker
+- `implement` / `tdd` — build (TDD at agreed seams when using implement)
 - `ponytail` / `ponytail-review` — minimize or hunt over-engineering
 - `diagnosing-bugs` — hard bug / perf regression
 - `code-review` — standards + spec review of a diff
 - `codebase-design` — deep-module vocabulary (data + free functions)
 - `research` — primary-source investigation
 - `writing-great-skills` — editing skills in this config repo
+- `handoff` — continue later
 
 Do not duplicate content already captured in other artifacts (specs, plans,
 ADRs, issues, commits, diffs). Reference them by path or URL instead.
@@ -34,4 +38,4 @@ session will focus on and tailor the doc accordingly.
 ---
 
 Source: https://github.com/mattpocock/skills (skills/productivity/handoff) — MIT.
-Adapted: suggested skills list matches this profile; no disable-model-invocation.
+Adapted: suggested skills list matches this profile.

@@ -39,7 +39,9 @@ before deeper work.
 Look for the originating spec, in this order:
 
 1. Issue / PR references in commit messages (`#123`, `Closes #45`, etc.) — fetch
-   if tools allow (gh, glab, browser); otherwise ask the user for the text/URL.
+   via the workflow in `docs/agents/issue-tracker.md` when setup has been run
+   (`setup-matt-pocock-skills`); otherwise use `gh`/`glab`/browser if available,
+   or ask the user for the text/URL.
 2. A path the user passed as an argument.
 3. A PRD/spec file under `docs/`, `specs/`, or similar matching the branch or feature.
 4. The current conversation if the work was specified only there.
