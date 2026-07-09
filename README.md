@@ -135,56 +135,42 @@ setup-matt-pocock-skills   (once)
 
 ## Install
 
-### Windows — VS Code Insiders + personal skills (Copilot)
+Prefer the installer scripts — they **detect** Grok, VS Code, and VS Code Insiders
+and only install into paths that exist (or force targets with flags).
+
+### Linux / macOS
+
+```sh
+git clone https://github.com/cseelhoff/Code
+cd Code
+./scripts/install.sh              # auto-detect
+./scripts/install.sh --dry-run    # preview
+./scripts/install.sh --force-all  # install every target even if not detected
+./scripts/install.sh --vscode --vscode-insiders --grok
+./scripts/install.sh --grok-skills   # also ~/.grok/skills
+```
+
+### Windows (PowerShell)
 
 ```powershell
-git clone https://github.com/cseelhoff/Code "$env:TEMP\copilot-config"
-
-# Always-on instructions → VS Code profile
-Copy-Item "$env:TEMP\copilot-config\User\*" "$env:APPDATA\Code - Insiders\User" -Recurse -Force
-
-# Skills → ~/.agents (Copilot + Grok personal discovery)
-New-Item -ItemType Directory -Force "$env:USERPROFILE\.agents\skills" | Out-Null
-Copy-Item "$env:TEMP\copilot-config\agents\skills\*" "$env:USERPROFILE\.agents\skills" -Recurse -Force
-
-Remove-Item "$env:TEMP\copilot-config" -Recurse -Force
+git clone https://github.com/cseelhoff/Code
+cd Code
+.\scripts\install.ps1
+.\scripts\install.ps1 -DryRun
+.\scripts\install.ps1 -ForceAll
+.\scripts\install.ps1 -Vscode -VscodeInsiders -Grok
+.\scripts\install.ps1 -GrokSkills
 ```
 
-### Windows — Stable VS Code
+### What gets installed
 
-Same as above, but use `$env:APPDATA\Code\User` instead of `Code - Insiders`.
+| Detected | Action |
+|----------|--------|
+| VS Code Stable and/or Insiders (or either) | `User/prompts/*` → profile `User/prompts/` |
+| Grok (`grok` / `grok-build` / `~/.grok`) | `AGENTS.md` → `~/.grok/AGENTS.md` |
+| Any of the above | skills → `~/.agents/skills/` (shared by Copilot + Grok) |
 
-### Linux — VS Code Insiders + skills
-
-```sh
-tmpdir="$(mktemp -d)"
-git clone https://github.com/cseelhoff/Code "$tmpdir/copilot-config"
-
-mkdir -p "$HOME/.config/Code - Insiders/User"
-cp -a "$tmpdir/copilot-config/User/." "$HOME/.config/Code - Insiders/User/"
-
-mkdir -p "$HOME/.agents/skills"
-cp -a "$tmpdir/copilot-config/agents/skills/." "$HOME/.agents/skills/"
-
-rm -rf "$tmpdir"
-```
-
-Stable Linux: use `"$HOME/.config/Code/User"` instead of `Code - Insiders`.
-
-### Grok Build (always-on + skills)
-
-Skills are already covered if you installed to `~/.agents/skills/`. Add global rules:
-
-```sh
-# From a clone of this repo:
-mkdir -p "$HOME/.grok"
-cp AGENTS.md "$HOME/.grok/AGENTS.md"
-# Skills (if not already in ~/.agents/skills):
-mkdir -p "$HOME/.agents/skills"
-cp -a agents/skills/. "$HOME/.agents/skills/"
-```
-
-Optional: also copy skills to `~/.grok/skills/` for Grok-native layout only.
+Restart VS Code / start a new Grok session after installing.
 
 ### Project-local install (one repo only)
 
@@ -192,13 +178,10 @@ Optional: also copy skills to `~/.grok/skills/` for Grok-native layout only.
 # In the target project root:
 mkdir -p .agents/skills
 cp -a /path/to/Code/agents/skills/. .agents/skills/
-cp /path/to/Code/AGENTS.md ./AGENTS.md   # Grok + other AGENTS.md readers
-# Copilot project instructions (optional):
+cp /path/to/Code/AGENTS.md ./AGENTS.md
 mkdir -p .github
-cp User/prompts/copilot-instructions.md .github/copilot-instructions.md
+cp /path/to/Code/User/prompts/copilot-instructions.md .github/copilot-instructions.md
 ```
-
-Restart VS Code / start a new Grok session after installing.
 
 ---
 
