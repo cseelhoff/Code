@@ -111,14 +111,25 @@ function Assert-Repo {
 }
 
 function Sync-Instructions {
-    $sync = Join-Path $Root "scripts\sync-instructions.sh"
-    if (Test-Path $sync) {
-        # Prefer bash if available (Git Bash / WSL context); else skip — files should already be synced in git
-        if (Test-CommandExists "bash") {
-            Invoke-Step -Description "sync-instructions.sh" -Action {
-                & bash $sync | Out-Null
-            }
-        }
+    # Native port of scripts\sync-instructions.sh: rebuild the always-on
+    # instruction files from shared\coding-style.md. Done in PowerShell so the
+    # installer has no bash dependency (Git Bash and WSL disagree on how to
+    # interpret Windows paths, which breaks shelling out to the .sh).
+    $body = Join-Path $Root "shared\coding-style.md"
+    if (-not (Test-Path $body)) { return }
+    Invoke-Step -Description "sync instructions from shared\coding-style.md" -Action {
+        $bodyBytes = [System.IO.File]::ReadAllBytes($body)
+        # Match the body's newline style so regenerated files never churn line endings
+        $nl = "`n"
+        $firstLf = [Array]::IndexOf($bodyBytes, [byte]10)
+        if ($firstLf -gt 0 -and $bodyBytes[$firstLf - 1] -eq 13) { $nl = "`r`n" }
+        $header = "---$nl" + "applyTo: `"**`"$nl" + "---$nl$nl"
+        $headerBytes = [System.Text.Encoding]::UTF8.GetBytes($header)
+        $out = New-Object byte[] ($headerBytes.Length + $bodyBytes.Length)
+        [Array]::Copy($headerBytes, 0, $out, 0, $headerBytes.Length)
+        [Array]::Copy($bodyBytes, 0, $out, $headerBytes.Length, $bodyBytes.Length)
+        [System.IO.File]::WriteAllBytes((Join-Path $Root "User\prompts\copilot-instructions.md"), $out)
+        Copy-Item -Path $body -Destination (Join-Path $Root "AGENTS.md") -Force
     }
 }
 
